@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import ThreeScene from './components/ThreeScene'
 import Stages from './components/Stages'
 import FarmerCard from './components/FarmerCard'
 
 export default function App() {
+  const [stage, setStage] = useState('Farms')
+
   return (
     <div className="min-h-screen bg-white">
       <header className="max-w-6xl mx-auto px-6 py-6 flex items-center justify-between border-b border-black/5">
@@ -38,7 +40,7 @@ export default function App() {
               Interactive 3D hero with a rice-grain cluster and a stylized Majuli islet. Subtle particles suggest the supply chain path.
             </motion.p>
             <div className="mt-6">
-              <FarmerCard />
+              <FarmerCard stage={stage} />
             </div>
           </div>
           <div>
@@ -47,7 +49,7 @@ export default function App() {
         </section>
 
         <section className="pb-8">
-          <Stages />
+          <Stages selected={stage} onSelect={setStage} />
         </section>
 
         <section className="py-10 border-t border-black/5">

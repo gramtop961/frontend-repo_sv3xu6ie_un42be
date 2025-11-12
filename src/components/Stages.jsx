@@ -4,11 +4,7 @@ import { Check, Truck, Factory, PackageOpen, Wheat } from 'lucide-react'
 const COLORS = {
   PrimaryGreen: '#28C76F',
   MintHighlight: '#7EF09A',
-  SoftAqua: '#DFF9F7',
-  PaleCyan: '#E6FBFF',
-  DeepShadow: '#0F8A50',
   CopyBlack: '#111111',
-  AccentCream: '#FFFDF7',
 }
 
 const steps = [
@@ -19,24 +15,31 @@ const steps = [
   { name: 'Consumer', icon: Check },
 ]
 
-export default function Stages() {
+export default function Stages({ selected = 'Farms', onSelect = () => {} }) {
   return (
     <div className="w-full">
-      <div className="flex items-center justify-between gap-3">
+      <div className="flex items-center justify-between gap-3" role="tablist" aria-label="Supply chain stages">
         {steps.map((s, i) => {
           const Icon = s.icon
+          const active = selected === s.name
           return (
-            <div key={s.name} className="flex-1 group">
+            <button
+              key={s.name}
+              role="tab"
+              aria-selected={active}
+              onClick={() => onSelect(s.name)}
+              className={`flex-1 group text-left focus:outline-none ${active ? 'opacity-100' : 'opacity-85'}`}
+            >
               <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-xl flex items-center justify-center shadow ring-1 ring-black/5 bg-white group-hover:scale-105 transition">
-                  <Icon className="text-[#28C76F]" size={22} />
+                <div className={`w-11 h-11 rounded-xl flex items-center justify-center shadow ring-1 ring-black/5 bg-white transition-transform ${active ? 'scale-105' : 'group-hover:scale-105'}`}>
+                  <Icon className={active ? 'text-[#111111]' : 'text-[#28C76F]'} size={22} />
                 </div>
-                <div className="text-sm font-medium text-[#111111]">{s.name}</div>
+                <div className={`text-sm font-semibold ${active ? 'text-[#111111]' : 'text-[#111111]'}`}>{s.name}</div>
               </div>
               {i < steps.length - 1 && (
-                <div className="h-1 bg-gradient-to-r from-[#7EF09A] to-[#28C76F] rounded-full mt-2 opacity-70" />
+                <div className={`h-1 rounded-full mt-2 transition-all ${active ? 'bg-gradient-to-r from-[#7EF09A] to-[#28C76F] opacity-100' : 'bg-black/10 opacity-70 group-hover:opacity-90'}`} />
               )}
-            </div>
+            </button>
           )
         })}
       </div>

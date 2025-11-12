@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useMemo, useRef } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 
 const COLORS = {
@@ -24,36 +24,86 @@ function Paddy() {
   )
 }
 
-export default function FarmerCard({ farmer }) {
+export default function FarmerCard({ farmer, stage }) {
   const data = farmer || {
     name: 'Kamala Baruah',
     id: 'AS-MJ-0012',
     coords: '26.97, 94.22',
+    location: 'Majuli, Assam',
     cultivationDate: '2025-02-18',
     bio: 'Fourth-generation farmer cultivating traditional red rice in Majuli.',
     certifications: ['Organic (NPOP)', 'Fair Trade'],
     txHash: '0x1a9c...b54e',
+    consumerDetails: {
+      variety: 'Red Rice (Bao Dhan)',
+      batch: 'RR-MJ-24-09',
+      weight: '1kg',
+      milledOn: '2025-03-05',
+      bestBefore: '2026-03-05',
+      origin: 'Majuli → Guwahati',
+      nutrition: 'Rich in anthocyanins and antioxidants',
+    },
   }
+
+  const stageInfo = useMemo(() => {
+    switch (stage) {
+      case 'Farms':
+        return { title: 'Farm location', detail: 'Majuli, Assam', sub: data.coords }
+      case 'Mills':
+        return { title: 'Milling location', detail: 'Majuli, Assam', sub: 'Village mill cooperative' }
+      case 'Logistics':
+        return { title: 'Logistics', detail: 'Travelled Majuli → Guwahati', sub: 'Brahmaputra ferry + road' }
+      case 'Packaging':
+        return { title: 'Packaging unit', detail: 'Bamunimaidan, Guwahati', sub: 'Sealed and lot-coded' }
+      case 'Consumer':
+        return { title: 'Consumer details', detail: 'Complete batch information', sub: '' }
+      default:
+        return { title: 'Overview', detail: data.location, sub: data.coords }
+    }
+  }, [stage, data])
 
   return (
     <div
-      className="bg-[--card] border border-black/5 rounded-2xl p-5 shadow-sm grid grid-cols-1 sm:grid-cols-3 gap-5 items-center"
+      className="bg-[--card] border border-black/5 rounded-2xl p-5 shadow-sm grid grid-cols-1 md:grid-cols-3 gap-5"
       style={{ ['--card']: COLORS.AccentCream }}
     >
-      {/* Left: avatar and basic info */}
-      <div className="flex items-center gap-4 sm:col-span-2">
+      {/* Left: avatar */}
+      <div className="flex items-start gap-4 md:col-span-2">
         <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#7EF09A] to-[#28C76F] ring-4 ring-white/80 shadow-md shrink-0" />
         <div className="flex-1">
           <div className="flex items-center justify-between gap-3 flex-wrap">
             <h3 className="text-lg font-bold text-[#111111] leading-tight">{data.name}</h3>
             <span className="text-xs font-semibold text-white bg-[#28C76F] px-2 py-1 rounded-full">{data.id}</span>
           </div>
-          <p className="text-sm text-[#111111]/80 mt-1 leading-relaxed">{data.bio}</p>
-          <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2 text-sm">
-            <div className="flex gap-2"><span className="text-[#111111]/60 w-28">Coords</span><span className="font-medium text-[#111111]">{data.coords}</span></div>
-            <div className="flex gap-2"><span className="text-[#111111]/60 w-28">Cultivation</span><span className="font-medium text-[#111111]">{data.cultivationDate}</span></div>
-            <div className="flex gap-2 md:col-span-2"><span className="text-[#111111]/60 w-28">Certifications</span><span className="font-medium text-[#111111]">{data.certifications.join(', ')}</span></div>
-            <div className="flex gap-2 md:col-span-2"><span className="text-[#111111]/60 w-28">Tx</span><span className="font-mono bg-white/70 px-1 rounded text-[#111111]">{data.txHash}</span></div>
+
+          {/* Labeled grid with fixed label width for perfect alignment */}
+          <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 text-sm">
+            <div className="flex"><span className="text-[#111111]/60 w-32 shrink-0">Bio</span><span className="font-medium text-[#111111]">{data.bio}</span></div>
+            <div className="flex"><span className="text-[#111111]/60 w-32 shrink-0">Coords</span><span className="font-medium text-[#111111]">{data.coords}</span></div>
+            <div className="flex"><span className="text-[#111111]/60 w-32 shrink-0">Cultivation</span><span className="font-medium text-[#111111]">{data.cultivationDate}</span></div>
+            <div className="flex sm:col-span-2"><span className="text-[#111111]/60 w-32 shrink-0">Certifications</span><span className="font-medium text-[#111111]">{data.certifications.join(', ')}</span></div>
+            <div className="flex sm:col-span-2"><span className="text-[#111111]/60 w-32 shrink-0">Tx</span><span className="font-mono bg-white/70 px-1 rounded text-[#111111]">{data.txHash}</span></div>
+          </div>
+
+          {/* Stage-specific info bar */}
+          <div className="mt-4 p-3 rounded-lg bg-white/70 ring-1 ring-black/5">
+            <div className="text-xs uppercase tracking-wide text-[#111111]/60">{stageInfo.title}</div>
+            {stage === 'Consumer' ? (
+              <div className="mt-1 text-sm text-[#111111] space-y-1">
+                <div><span className="text-[#111111]/60 w-32 inline-block">Variety</span> {data.consumerDetails.variety}</div>
+                <div><span className="text-[#111111]/60 w-32 inline-block">Batch</span> {data.consumerDetails.batch}</div>
+                <div><span className="text-[#111111]/60 w-32 inline-block">Weight</span> {data.consumerDetails.weight}</div>
+                <div><span className="text-[#111111]/60 w-32 inline-block">Milled on</span> {data.consumerDetails.milledOn}</div>
+                <div><span className="text-[#111111]/60 w-32 inline-block">Best before</span> {data.consumerDetails.bestBefore}</div>
+                <div><span className="text-[#111111]/60 w-32 inline-block">Origin</span> {data.consumerDetails.origin}</div>
+                <div><span className="text-[#111111]/60 w-32 inline-block">Nutrition</span> {data.consumerDetails.nutrition}</div>
+              </div>
+            ) : (
+              <div className="mt-1 text-sm text-[#111111]">
+                <div className="font-semibold">{stageInfo.detail}</div>
+                {stageInfo.sub && <div className="text-[#111111]/70">{stageInfo.sub}</div>}
+              </div>
+            )}
           </div>
         </div>
       </div>
