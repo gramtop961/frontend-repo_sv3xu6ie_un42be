@@ -95,7 +95,7 @@ function Particles() {
 
 export default function ThreeScene() {
   return (
-    <div className="h-[520px] w-full rounded-2xl overflow-hidden shadow-xl ring-1 ring-black/5">
+    <div className="h-56 sm:h-72 md:h-[520px] w-full rounded-2xl overflow-hidden shadow-xl ring-1 ring-black/5">
       <Canvas camera={{ position: [1.8, 1.2, 2.2], fov: 50 }} shadows>
         <color attach="background" args={[COLORS.SoftAqua]} />
         <ambientLight intensity={0.6} />

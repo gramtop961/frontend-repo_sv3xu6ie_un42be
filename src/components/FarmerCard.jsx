@@ -64,39 +64,39 @@ export default function FarmerCard({ farmer, stage }) {
 
   return (
     <div
-      className="bg-[--card] border border-black/5 rounded-2xl p-5 shadow-sm grid grid-cols-1 md:grid-cols-3 gap-5"
+      className="bg-[--card] border border-black/5 rounded-2xl p-4 sm:p-5 shadow-sm grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5"
       style={{ ['--card']: COLORS.AccentCream }}
     >
       {/* Left: avatar */}
-      <div className="flex items-start gap-4 md:col-span-2">
-        <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#7EF09A] to-[#28C76F] ring-4 ring-white/80 shadow-md shrink-0" />
-        <div className="flex-1">
-          <div className="flex items-center justify-between gap-3 flex-wrap">
-            <h3 className="text-lg font-bold text-[#111111] leading-tight">{data.name}</h3>
-            <span className="text-xs font-semibold text-white bg-[#28C76F] px-2 py-1 rounded-full">{data.id}</span>
+      <div className="flex items-start gap-3 sm:gap-4 md:col-span-2">
+        <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-[#7EF09A] to-[#28C76F] ring-4 ring-white/80 shadow-md shrink-0" />
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center justify-between gap-2 sm:gap-3 flex-wrap">
+            <h3 className="text-base sm:text-lg font-bold text-[#111111] leading-tight truncate">{data.name}</h3>
+            <span className="text-[10px] sm:text-xs font-semibold text-white bg-[#28C76F] px-2 py-1 rounded-full">{data.id}</span>
           </div>
 
           {/* Labeled grid with fixed label width for perfect alignment */}
-          <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 text-sm">
-            <div className="flex"><span className="text-[#111111]/60 w-32 shrink-0">Bio</span><span className="font-medium text-[#111111]">{data.bio}</span></div>
-            <div className="flex"><span className="text-[#111111]/60 w-32 shrink-0">Coords</span><span className="font-medium text-[#111111]">{data.coords}</span></div>
-            <div className="flex"><span className="text-[#111111]/60 w-32 shrink-0">Cultivation</span><span className="font-medium text-[#111111]">{data.cultivationDate}</span></div>
-            <div className="flex sm:col-span-2"><span className="text-[#111111]/60 w-32 shrink-0">Certifications</span><span className="font-medium text-[#111111]">{data.certifications.join(', ')}</span></div>
-            <div className="flex sm:col-span-2"><span className="text-[#111111]/60 w-32 shrink-0">Tx</span><span className="font-mono bg-white/70 px-1 rounded text-[#111111]">{data.txHash}</span></div>
+          <div className="mt-3 sm:mt-4 grid grid-cols-1 sm:grid-cols-2 gap-x-4 sm:gap-x-8 gap-y-2 text-sm">
+            <div className="flex"><span className="text-[#111111]/60 w-28 sm:w-32 shrink-0">Bio</span><span className="font-medium text-[#111111] line-clamp-2">{data.bio}</span></div>
+            <div className="flex"><span className="text-[#111111]/60 w-28 sm:w-32 shrink-0">Coords</span><span className="font-medium text-[#111111]">{data.coords}</span></div>
+            <div className="flex"><span className="text-[#111111]/60 w-28 sm:w-32 shrink-0">Cultivation</span><span className="font-medium text-[#111111]">{data.cultivationDate}</span></div>
+            <div className="flex sm:col-span-2"><span className="text-[#111111]/60 w-28 sm:w-32 shrink-0">Certifications</span><span className="font-medium text-[#111111]">{data.certifications.join(', ')}</span></div>
+            <div className="flex sm:col-span-2"><span className="text-[#111111]/60 w-28 sm:w-32 shrink-0">Tx</span><span className="font-mono bg-white/70 px-1 rounded text-[#111111] break-all">{data.txHash}</span></div>
           </div>
 
           {/* Stage-specific info bar */}
-          <div className="mt-4 p-3 rounded-lg bg-white/70 ring-1 ring-black/5">
+          <div className="mt-3 sm:mt-4 p-3 rounded-lg bg-white/70 ring-1 ring-black/5">
             <div className="text-xs uppercase tracking-wide text-[#111111]/60">{stageInfo.title}</div>
             {stage === 'Consumer' ? (
-              <div className="mt-1 text-sm text-[#111111] space-y-1">
-                <div><span className="text-[#111111]/60 w-32 inline-block">Variety</span> {data.consumerDetails.variety}</div>
-                <div><span className="text-[#111111]/60 w-32 inline-block">Batch</span> {data.consumerDetails.batch}</div>
-                <div><span className="text-[#111111]/60 w-32 inline-block">Weight</span> {data.consumerDetails.weight}</div>
-                <div><span className="text-[#111111]/60 w-32 inline-block">Milled on</span> {data.consumerDetails.milledOn}</div>
-                <div><span className="text-[#111111]/60 w-32 inline-block">Best before</span> {data.consumerDetails.bestBefore}</div>
-                <div><span className="text-[#111111]/60 w-32 inline-block">Origin</span> {data.consumerDetails.origin}</div>
-                <div><span className="text-[#111111]/60 w-32 inline-block">Nutrition</span> {data.consumerDetails.nutrition}</div>
+              <div className="mt-1 text-sm text-[#111111] grid grid-cols-1 sm:grid-cols-2 gap-x-6">
+                <div><span className="text-[#111111]/60 w-28 inline-block">Variety</span> {data.consumerDetails.variety}</div>
+                <div><span className="text-[#111111]/60 w-28 inline-block">Batch</span> {data.consumerDetails.batch}</div>
+                <div><span className="text-[#111111]/60 w-28 inline-block">Weight</span> {data.consumerDetails.weight}</div>
+                <div><span className="text-[#111111]/60 w-28 inline-block">Milled on</span> {data.consumerDetails.milledOn}</div>
+                <div><span className="text-[#111111]/60 w-28 inline-block">Best before</span> {data.consumerDetails.bestBefore}</div>
+                <div className="sm:col-span-2"><span className="text-[#111111]/60 w-28 inline-block">Origin</span> {data.consumerDetails.origin}</div>
+                <div className="sm:col-span-2"><span className="text-[#111111]/60 w-28 inline-block">Nutrition</span> {data.consumerDetails.nutrition}</div>
               </div>
             ) : (
               <div className="mt-1 text-sm text-[#111111]">
@@ -109,7 +109,7 @@ export default function FarmerCard({ farmer, stage }) {
       </div>
 
       {/* Right: 3D paddy preview */}
-      <div className="h-28 sm:h-32 md:h-36 w-full rounded-xl overflow-hidden ring-1 ring-black/5 bg-white">
+      <div className="h-24 sm:h-28 md:h-36 w-full rounded-xl overflow-hidden ring-1 ring-black/5 bg-white">
         <Canvas camera={{ position: [1.4, 1, 1.6], fov: 50 }} shadows>
           <color attach="background" args={["#ffffff"]} />
           <ambientLight intensity={0.6} />
